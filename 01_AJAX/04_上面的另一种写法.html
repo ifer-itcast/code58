@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let str = '<div>{{name}}今年{{ age }}岁了</div>'
+        // 这个地方要加 g，代表全局匹配
+        let pattern = /{{\s*([a-zA-Z]+)\s*}}/g;
+
+        str = str.replace(pattern, function(大正则, 第一个小分组) {
+            console.log(大正则, 第一个小分组);
+            // 你这里返回啥，就会把大正则匹配到的内容替换成啥
+            return 第一个小分组;
+        });
+        console.log(str);
+    </script>
+</body>
+
+</html>

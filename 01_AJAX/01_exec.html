@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let str = '<div>我是{{name}}</div>'
+        let pattern = /{{([a-zA-Z]+)}}/
+
+        let result = pattern.exec(str)
+
+        // 第一个参数是大正则匹配到的内容，第二个参数是第一个分组的内容
+        console.log(result);
+
+        // 为什么数组会有这种写法？ [index: 7]，因为数组也是对象，是可以通过点（.）去增加属性
+        let arr = ["{{name}}", "name"];
+        // 是对象就可以通过点增加任何属性
+        arr.index = 888;
+        console.log(arr.index);
+    </script>
+</body>
+
+</html>
