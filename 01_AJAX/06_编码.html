@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* let str = '黑马程序员';
+        let str2 = encodeURI(str);
+        console.log(str2);
+
+        let str3 = decodeURI(str2);
+        console.log(str3); */
+
+        let str = '黑马程序员';
+        let str2 = encodeURIComponent(str);
+        console.log(str2);
+        console.log(decodeURIComponent(str2));
+
+        // encodeURI: 适用于编码的内容存在链接（url）
+        // encodeURIComponent: 使用于专门编码传递的参数
+    </script>
+</body>
+
+</html>

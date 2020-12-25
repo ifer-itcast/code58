@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1. 创建 xhr 对象
+        const xhr = new XMLHttpRequest();
+        // 2. 调用 open 函数
+        xhr.open('POST', 'http://www.liulongbin.top:3006/api/addbook');
+        // 3. 设置 Content-Type 属性
+        // 设置请求头当中的 Content-Type 为 application/x-www-form-urlencoded
+        // 必须放到 open 之后和 send 之前
+        // application/x-www-form-urlencoded 这个对应的数据格式就是 key=value&key=value
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        // 4. 调用 send 函数
+        // POST 请求传递的数据必须通过 send 里面的参数来传递
+        xhr.send('bookname=水浒传&author=施耐庵&publisher=上海图书出版社');
+        // 5. 监听事件
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+        };
+    </script>
+</body>
+
+</html>

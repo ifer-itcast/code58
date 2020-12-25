@@ -9,6 +9,8 @@
 
 <body>
     <script>
+        // 正则对字符串进行操作，主要就三件事：匹配（reg.test）、提取（reg.exec、str.match）、替换（str.replace）
+
         let str = '<div>{{name}}今年{{ age }}岁了</div>'
         // 这个地方要加 g，代表全局匹配
         let pattern = /{{\s*([a-zA-Z]+)\s*}}/g;
