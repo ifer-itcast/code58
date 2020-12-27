@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1. 创建 FormData 实例
+        const fd = new FormData()
+        // 2. 调用 append 函数，向 fd 中追加数据
+        fd.append('uname', 'zs')
+        fd.append('upwd', '123456')
+
+        const xhr = new XMLHttpRequest()
+        // 后端这个接口支持接收和解析 FormData 格式的数据
+        xhr.open('POST', 'http://www.liulongbin.top:3006/api/formdata')
+        // 发送 formData 格式的数据的时候，不要设置请求头中的 Content-Type，浏览器识别到这种 FormData 数据格式，会自动加
+        xhr.send(fd)
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(JSON.parse(xhr.responseText))
+            }
+        }
+    </script>
+</body>
+
+</html>
