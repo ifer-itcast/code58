@@ -62,8 +62,18 @@
                     const data = JSON.parse(xhr.responseText);
                     if (data.status === 200) {
                         // 上传成功，假如这里后端没有给我返回图片地址
+                        // 前端进行图片预览的第 1 种方式
                         // URL.createObjectURL 可以根据图片信息生成一种 Blob 数据格式的信息（代表的就是图片本身），这个 Blob 数据格式的信息可以作为图片的 src 直接使用
-                        oImg.src = URL.createObjectURL(files[0]);
+                        // oImg.src = URL.createObjectURL(files[0]);
+
+                        // 前端进行图片预览的第 2 种方式
+                        const reader = new FileReader();
+                        // 把图片文件读取成 base64 格式的文件信息，这个 base64 就代表了图片本身，同样可以当做图片的 src 直接使用
+                        reader.readAsDataURL(files[0]);
+                        reader.onload = function() {
+                            // 触发了这里，代表读取完毕，reader.result 就代表了读取的结果
+                            oImg.src = this.result;
+                        };
                     } else {
                         // 上传失败
                         console.log('图片上传失败！' + data.message)
