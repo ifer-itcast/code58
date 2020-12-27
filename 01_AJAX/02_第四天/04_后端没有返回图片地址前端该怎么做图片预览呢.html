@@ -17,6 +17,8 @@
     <!-- 3. img 标签，来显示上传成功以后的图片 -->
     <img src="" alt="" id="img" width="800" />
 
+    <progress max="100" value="0" id="progress"></progress>
+
     <script>
         /* // 1. 获取到文件上传按钮
         const btnUpload = document.querySelector('#btnUpload')
@@ -35,6 +37,7 @@
         const btnUpload = document.querySelector('#btnUpload');
         const file = document.querySelector('#file1');
         const oImg = document.querySelector('#img');
+        const oProgress = document.querySelector('#progress')
         // 2. 为按钮绑定单击事件处理函数
         btnUpload.addEventListener('click', function () {
             // 触发上传框的点击事件
@@ -54,6 +57,17 @@
             fd.append('avatar', files[0])
 
             const xhr = new XMLHttpRequest()
+
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    // 计算出上传的进度
+                    let procentComplete = Math.ceil((e.loaded / e.total) * 100)
+                    // console.log(procentComplete)
+                    // 动态设置进度条
+                    oProgress.value = procentComplete;
+                }
+            }
+
             xhr.open('POST', 'http://www.liulongbin.top:3006/api/upload/avatar')
             xhr.send(fd)
 
@@ -70,7 +84,7 @@
                         const reader = new FileReader();
                         // 把图片文件读取成 base64 格式的文件信息，这个 base64 就代表了图片本身，同样可以当做图片的 src 直接使用
                         reader.readAsDataURL(files[0]);
-                        reader.onload = function() {
+                        reader.onload = function () {
                             // 触发了这里，代表读取完毕，reader.result 就代表了读取的结果
                             oImg.src = this.result;
                         };
