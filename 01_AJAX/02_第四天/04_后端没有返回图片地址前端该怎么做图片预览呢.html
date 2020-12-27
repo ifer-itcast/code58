@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 1. 文件选择框 -->
+    <input type="file" id="file1" hidden />
+    <!-- 2. 上传文件的按钮 -->
+    <button id="btnUpload">上传文件</button>
+    <br />
+    <!-- 3. img 标签，来显示上传成功以后的图片 -->
+    <img src="" alt="" id="img" width="800" />
+
+    <script>
+        /* // 1. 获取到文件上传按钮
+        const btnUpload = document.querySelector('#btnUpload')
+        // 2. 为按钮绑定单击事件处理函数
+        btnUpload.addEventListener('click', function () {
+            // 3. 获取到用户选择的文件列表
+            // 如果说用户选择了文件，files 里面是会有长度的
+            const files = document.querySelector('#file1').files
+            if (files.length <= 0) {
+                return alert('请选择要上传的文件！')
+            }
+            console.log('用户选择了文件');
+        }); */
+
+        // 1. 获取到文件上传按钮
+        const btnUpload = document.querySelector('#btnUpload');
+        const file = document.querySelector('#file1');
+        const oImg = document.querySelector('#img');
+        // 2. 为按钮绑定单击事件处理函数
+        btnUpload.addEventListener('click', function () {
+            // 触发上传框的点击事件
+            file.click();
+        });
+        // 3. 监听 file 框的 onchange 事件
+        file.onchange = function () {
+            const files = file.files
+            if (files.length <= 0) {
+                return alert('请选择要上传的文件！')
+            }
+            // console.log('用户选择了文件');
+
+            const fd = new FormData()
+            // 将用户选择的文件，添加到 FormData 中
+            // 后端规定好必须叫 avatar，为什么呢？因为后端拿到前端传递的数据的时候，它就会从 avatar 里面取图片信息
+            fd.append('avatar', files[0])
+
+            const xhr = new XMLHttpRequest()
+            xhr.open('POST', 'http://www.liulongbin.top:3006/api/upload/avatar')
+            xhr.send(fd)
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    if (data.status === 200) {
+                        // 上传成功，假如这里后端没有给我返回图片地址
+                        // URL.createObjectURL 可以根据图片信息成功一种 Blob 数据格式的信息，这个 Blob 数据格式的信息可以作为图片的 src 直接使用
+                        oImg.src = URL.createObjectURL(files[0]);
+                    } else {
+                        // 上传失败
+                        console.log('图片上传失败！' + data.message)
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+
+</html>
