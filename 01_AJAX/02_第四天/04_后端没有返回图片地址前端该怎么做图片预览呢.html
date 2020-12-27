@@ -62,7 +62,7 @@
                     const data = JSON.parse(xhr.responseText);
                     if (data.status === 200) {
                         // 上传成功，假如这里后端没有给我返回图片地址
-                        // URL.createObjectURL 可以根据图片信息成功一种 Blob 数据格式的信息，这个 Blob 数据格式的信息可以作为图片的 src 直接使用
+                        // URL.createObjectURL 可以根据图片信息生成一种 Blob 数据格式的信息（代表的就是图片本身），这个 Blob 数据格式的信息可以作为图片的 src 直接使用
                         oImg.src = URL.createObjectURL(files[0]);
                     } else {
                         // 上传失败
