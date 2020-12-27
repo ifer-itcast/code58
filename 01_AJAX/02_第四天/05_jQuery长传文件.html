@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/jquery.js"></script>
+</head>
+
+<body>
+
+    <input type="file" id="file1" />
+    <button id="btnUpload">上传文件</button>
+    <progress max="100" value="0" id="progress"></progress>
+    <br />
+    <img src="./loading.gif" alt="" style="display: none;" id="loading" />
+
+    <script>
+        $(function () {
+            // 匈牙利命名法的简版 数据类型 + 名字
+            // o => object
+            const oProgress = document.querySelector('#progress');
+
+            // a => Array
+            const aDiv = document.querySelectorAll('div');
+
+            // s => String
+            const sName = 'ifer';
+
+
+            // 监听到Ajax请求被发起了
+            /* $(document).ajaxStart(function () {
+                $('#loading').show()
+            });
+
+            // 监听到 Ajax 完成的事件
+            $(document).ajaxStop(function () {
+                $('#loading').hide()
+            }); */
+
+            $('#btnUpload').on('click', function () {
+                var files = $('#file1')[0].files
+                if (files.length <= 0) {
+                    return alert('请选择文件后再上传！')
+                }
+
+                var fd = new FormData()
+                fd.append('avatar', files[0])
+
+                // 发起 jQuery 的 Ajax 请求，上传文件
+                $.ajax({
+                    method: 'POST',
+                    url: 'http://www.liulongbin.top:3006/api/upload/avatar',
+                    data: fd,
+                    // 不要编码数据
+                    processData: false,
+                    // 默认情况下 jQuery 会自动在请求头当中设置 Content-Type: application/x-www-form-urlencoded;
+                    // 去掉默认的设置，因为 FormData 数据的信息不需要手动加
+                    contentType: false,
+                    // 如果说指向监听当前的请求开始和请求结束做一些事情，用下面两个方法
+                    beforeSend() {
+                        $('#loading').show();
+                    },
+                    complete() {
+                        $('#loading').hide();
+                    },
+                    success: function (res) {
+                        console.log(res)
+                    },
+                    xhr: function () {
+                        const xhr = new XMLHttpRequest();
+                        xhr.upload.onprogress = function (e) {
+                            if (e.lengthComputable) {
+                                // 计算出上传的进度
+                                let procentComplete = Math.ceil((e.loaded / e.total) * 100)
+                                // console.log(procentComplete)
+                                // 动态设置进度条
+                                oProgress.value = procentComplete;
+                            }
+                        }
+                        return xhr;
+                    }
+                })
+            })
+        })
+    </script>
+
+</body>
+
+</html>
