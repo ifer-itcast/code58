@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    div {
+        width: 500px;
+        height: 200px;
+        border: 1px solid red;
+    }
+    </style>
+</head>
+<body>
+    <div>
+
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script>
+    const oDiv = document.querySelector('div');
+    // 触发的频率很高
+    /* oDiv.onmousemove = function(e) {
+        this.innerHTML = `x:${e.pageX},y:${e.pageY}`;
+    }; */
+
+    // 防抖优化
+    /* let timer = null;
+    oDiv.onmousemove = function(e) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            this.innerHTML = `x:${e.pageX},y:${e.pageY}`;
+        }, 1000);
+    }; */
+
+    // 封装一个防抖函数，哪里用直接调用就好了
+    // 希望封装一个函数，第一个参数是【希望做的事】，第二个参数是防抖时间
+
+    oDiv.onmousemove = debounce(function(e) {
+        console.log(this);
+        this.innerHTML = `x:${e.pageX},y:${e.pageY}`;
+    }, 300);
+
+    function debounce(cb, time) {
+        let timer = null;
+        return function() {
+            clearTimeout(timer);
+            // ...
+            timer = setTimeout(() => {
+                cb.apply(this, arguments);
+            }, time);
+        };
+    }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/jquery.js"></script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #angel {
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="./angel.gif" alt="" id="angel" />
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script>
+        $(function () {
+            /* let angel = $('#angel')
+            // #1 定义一个开关，默认打开
+            let bBar = true;
+            $(document).on('mousemove', function (e) {
+                // #2 根据开关做一个判断
+                if (bBar) {
+                    // #3 一进来就把开关【关闭】
+                    bBar = false;
+                    setTimeout(function () {
+                        $(angel).css('top', e.pageY + 'px').css('left', e.pageX + 'px');
+                        // #4 定时器指定完毕后再次打开开关
+                        bBar = true;
+                    }, 16);
+                }
+            }); */
+
+            let angel = $('#angel')
+            $(document).on('mousemove', _.throttle(function (e) {
+                $(angel).css('top', e.pageY + 'px').css('left', e.pageX + 'px');
+            }, 30));
+        });
+    </script>
+</body>
+
+</html>
