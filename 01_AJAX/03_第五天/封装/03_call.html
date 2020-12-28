@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">click</button>
+    <script>
+        // call apply bind 再讲一下呗
+
+        // 1. 普通函数的 this 谁调用就是谁
+        /* function fn() {
+            console.log(this); // window
+        }
+        fn(); // window.fn(); */
+
+        /* var age = 19;
+        const obj = {
+            age: 18,
+            showAge: function() {
+                // this => obj
+                console.log(this.age); // 18
+            }
+        };
+        // 加括号才是调用
+        obj.showAge(); */
+
+        /* var age = 19; // window.age
+        const obj = {
+            age: 18,
+            showAge: function() {
+                // this => window
+                console.log(this.age); // 19
+            }
+        };
+        // 加括号才是调用
+        var temp = obj.showAge;
+        temp(); // window.temp()，这里才是真正的调用，是 window 调用的 */
+
+
+        /* var age = 19;
+        const obj = {
+            age: 18,
+            showAge() {
+                // this => obj
+                console.log(this.age); // 18
+            }
+        };
+        var temp = obj.showAge();
+        temp(); // 报错 */
+
+
+        /* const obj = {
+            age: 18,
+            showAge() {
+                console.log(this.age); // 20
+            }
+        };
+        var t = {
+            age: 20
+        };
+        // 普通函数确实是谁调用就是谁，但是配合 call 去使用的时候，call 的优先级比较高
+        obj.showAge.call(t); */
+
+
+        /* const obj = {
+            age: 18,
+            showAge: () => {
+                console.log(this.age); // undefined
+            }
+        };
+        var t = {
+            age: 20
+        };
+        // 普通函数确实是谁调用就是谁，但是配合 call 去使用的时候，call 的优先级比较高，但是！箭头函数中的 this 根本不受 call 的影响
+        obj.showAge.call(t); */
+
+
+        // 定时器当中的 this 就是 window
+        /* setTimeout(() => {
+            console.log(this); // window
+        }); */
+
+
+        /* let temp = null;
+        function Person(uname, uage) {
+            temp = this;
+            // 构造函数中的 this 就是实例对象
+            this.uname = uname;
+            this.uage = uage;
+        }
+
+        const p = new Person('ifer', 18);
+        console.log(temp === p); // 如果说是 true，说明构造函数中的 this 就是实例对象 */
+
+
+        /* function Person(uname, uage) {
+            this.uname = uname;
+            this.uage = uage;
+            // 构造函数会自动返回this，如果说手动返回了一个简单数据类型，会忽略
+            // return 8;
+            // 如果返回的是复杂数据类型，返回什么，new Person 得到的结果就是什么
+            // object({})、[]、RegExp、Function
+            return {
+                age: 19
+            };
+        }
+
+        const p = new Person('ifer', 18);
+        console.log(p); */
+
+        /* function fn(a, b) {
+            console.log(this, a + b);
+        }
+        const obj = {
+            age: 18
+        }; */
+        // 第一个参数永远是this 执行，从第二个参数开始代表实参
+        // fn.call(obj, 8, 9);
+        // apply 第一个参数永远是this 执行，从第二个参数是一个数组
+        // apply 会把第二个参数会“打散”
+        // fn.apply(obj, [8, 9]);
+
+        // Math.max(8, 9, 9, 1);
+        // 利用“打散的特性求最大值”
+        // Math.max.apply(Math, [8, 9, 9, 1]);
+
+        /* console.log(['a', 'b', 'd']);
+        console.log.apply(console, ['a', 'b', 'd']); */
+
+        // bind 不会调用函数，返回的是一个新函数，想执行函数必须调用新函数
+        /* const newFn = fn.bind(obj, 8);
+        newFn(9); */
+
+
+        
+
+        /* btn.onclick = function() {
+            console.log(1);
+        }; */
+
+        /* function fn() {
+            console.log(1);
+        }
+        btn.onclick = fn; */
+
+        /* function fn() {
+            console.log(1);
+        }
+        btn.onclick = fn(); */
+
+        /* function fn() {
+            console.log(1);
+            return function() {
+                console.log(2);
+            };
+        }
+        btn.onclick = fn(); */
+
+        /* function fn() {
+            console.log(1);
+            return function(e) {
+                console.log(e);
+                console.log(2);
+            };
+        }
+        btn.onclick = fn(); */
+
+
+        // 判断数据类型
+
+        // typeof 并不能区分复杂数据类型
+        /* var obj = {};
+        var arr = [];
+        var n = null;
+        console.log(typeof obj);
+        console.log(typeof arr);
+        console.log(typeof n); */
+
+        // Array.isArray 仅仅是能用来区分是不是数组
+        /* var obj = {};
+        var arr = [];
+        var n = null;
+        console.log(Array.isArray(obj));
+        console.log(Array.isArray(n)); */
+
+        /* var obj = {};
+        var arr = [];
+        // instanceof 仅仅是用来判断这个对象（arr/obj）能否通过 __proto__ 找到某个构造函数的原型（Object.prototype）
+        console.log(arr instanceof Object);
+        console.log(obj instanceof Object); */
+
+        /* var obj = {};
+        var arr = [];
+        var n = null;
+        var u = undefined;
+        console.log(Object.prototype.toString.call(obj)); // '[object Object]'
+        console.log(Object.prototype.toString.call(arr)); // '[object Array]'
+        console.log(Object.prototype.toString.call(n)); // '[object Null]'
+        console.log(Object.prototype.toString.call(u)); // '[object Undefined]' */
+
+        function isType(n) {
+            // 
+            var r = Object.prototype.toString.call(n);
+            switch(true) {
+                case r === '[object Object]':
+                    return 'object';
+                case r === '[object Array]':
+                    return 'array';
+                case r === '[object Null]':
+                    return 'null';
+                case r === '[object Undefined]':
+                    return 'undefined';
+                // ...
+            }
+        }
+        console.log(isType([]));
+
+
+        // 数组本身也有 toString，但是下面的写法用的是 Object.prototype.toString，说白了可以用 call 借用其他的方法
+        // Object.prototype.toString.call([])
+
+
+        /* function sum() {
+            // 数组具有 push 方法，我能不能借用一下呢？
+            Array.prototype.push.call(arguments, 8);
+
+            // slice 切完之后的返回值是数组，伪数组转真数组
+            Array.prototype.slice.call(arguments).forEach(item => {
+                console.log(item);
+            });
+        }
+        sum(1, 3, 5); */
+
+
+        // 为啥子就能借用，实在不明白！
+
+        const obj = {
+            0: 'a',
+            1: 'b',
+            length: 2
+        };
+        // 需求：往 obj 里面加一项
+        /* obj['2'] = 'c';
+        obj.length++; */
+
+        // Array.prototype.push.call(obj, 'c');
+
+        Array.prototype.push2 = function(con) {
+            this[this.length] = con;
+            this.length++;
+        };
+        Array.prototype.push2.call(obj, 'c');
+
+        console.log(obj);
+
+
+
+
+    </script>
+</body>
+
+</html>
